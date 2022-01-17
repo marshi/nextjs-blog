@@ -40,7 +40,7 @@ export function getSortedPostsData(): PostsData[] {
     )
   })
   // Sort posts by date
-  return allPostsData.sort((a, b) => {
+  let postsData = allPostsData.sort((a, b) => {
     if (a < b) {
       return 1
     } else if (a > b) {
@@ -48,5 +48,6 @@ export function getSortedPostsData(): PostsData[] {
     } else {
       return 0
     }
-  })
+  });
+  return postsData
 }

@@ -1,19 +1,29 @@
-import Head from 'next/head'
-import Layout, {siteTitle} from '../components/layout'
+import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import {getSortedPostsData, PostsData} from "../lib/posts.js";
+import {InferGetStaticPropsType} from "next";
 
-export async function getStaticProps() {
-  const allPostsData: PostsData[] = getSortedPostsData()
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+export const getStaticProps = async () => {
+  const allPostsData: PostsData[] = getSortedPostsData();
+  console.log("aoi");
+  console.log(allPostsData);
+  const data = allPostsData.map(value => {
+    const {...v} = value;
+    return v;
+  })
+  console.log(data);
   return {
     props: {
-      allPostsData
+      data
     }
-  }
+  };
 }
 
-export default function Home({allPostsData}: { allPostsData: PostsData }) {
-  console.log(allPostsData)
+export default function Home({data}: Props) {
+  console.log(data)
+  console.log("aaa")
   return (
     <Layout home>
       {/* Keep the existing code here */}
@@ -22,7 +32,7 @@ export default function Home({allPostsData}: { allPostsData: PostsData }) {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({id, date, title}) => (
+          {data.map(({id, date, title}) => (
             <li className={utilStyles.listItem} key={id}>
               {title}
               <br/>
