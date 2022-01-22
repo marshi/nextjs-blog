@@ -1,19 +1,16 @@
 import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import {getSortedPostsData, PostsData} from "../lib/posts.js";
+import {getSortedPostsData, PostsData} from "../lib/posts";
 import {InferGetStaticPropsType} from "next";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export const getStaticProps = async () => {
   const allPostsData: PostsData[] = getSortedPostsData();
-  console.log("aoi");
-  console.log(allPostsData);
   const data = allPostsData.map(value => {
     const {...v} = value;
     return v;
   })
-  console.log(data);
   return {
     props: {
       data
