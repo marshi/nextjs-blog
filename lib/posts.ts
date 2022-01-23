@@ -42,7 +42,7 @@ export function getSortedPostsData(): PostsData[] {
     )
   })
   // Sort posts by date
-  let postsData = allPostsData.sort((a, b) => {
+  const postsData = allPostsData.sort((a, b) => {
     if (a < b) {
       return 1
     } else if (a > b) {
