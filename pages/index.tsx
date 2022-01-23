@@ -2,10 +2,12 @@ import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import {getSortedPostsData, PostsData} from "../lib/posts";
 import {InferGetStaticPropsType} from "next";
+import Link from 'next/link';
+import Date from "../components/date";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = async () => {
+export const getStaticProps = () => {
   const allPostsData: PostsData[] = getSortedPostsData();
   const data = allPostsData.map(value => {
     const {...v} = value;
@@ -19,8 +21,6 @@ export const getStaticProps = async () => {
 }
 
 export default function Home({data}: Props) {
-  console.log(data)
-  console.log("aaa")
   return (
     <Layout home>
       {/* Keep the existing code here */}
@@ -31,11 +31,13 @@ export default function Home({data}: Props) {
         <ul className={utilStyles.list}>
           {data.map(({id, date, title}) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
+              <Link href={`posts/${id}`}>
+                <a>{title}</a>
+              </Link>
               <br/>
-              {id}
-              <br/>
-              {date}
+              <small className={utilStyles.lightText}>
+                <Date dateString={date}/>
+              </small>
             </li>
           ))}
         </ul>
