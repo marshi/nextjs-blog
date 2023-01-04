@@ -8,9 +8,15 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "command": "npm run dev",
+            "preLaunchTask": "npm: dev",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "meteor://💻app/*": "${workspaceFolder}/*",
+                "webpack:///./~/*": "${workspaceFolder}/node_modules/*",
+                "webpack://?:*/*": "${workspaceFolder}/*"
+            }
         }
     ]
 }
