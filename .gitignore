@@ -28,3 +28,9 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/nextjs-blog.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
