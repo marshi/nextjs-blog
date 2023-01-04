@@ -1,15 +1,15 @@
 import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import {getSortedPostsData, PostsData} from "../lib/posts";
-import {InferGetStaticPropsType} from "next";
+import {GetStaticProps, InferGetStaticPropsType} from "next";
 import Link from 'next/link';
 import Date from "../components/date";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = () => {
+export const getStaticProps: GetStaticProps = () => {
   const allPostsData: PostsData[] = getSortedPostsData();
-  const data = allPostsData.map(value => {
+  const data: PostsData[] = allPostsData.map(value => {
     const {...v} = value;
     return v;
   })
