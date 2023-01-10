@@ -1,10 +1,15 @@
 import Head from 'next/head';
-import Layout from '../../components/layout'
-import {getAllPostIds, getPostData} from "../../lib/posts";
-import Date from "../../components/date";
-import utilStyles from "../../styles/utils.module.css"
+import Layout from 'components/layout'
+import { getAllPostIds, getPostData } from "lib/posts";
+import Date from "components/date";
+import utilStyles from "styles/utils.module.css"
+import { ParsedUrlQuery } from 'querystring';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
-export default function Post({postData}) {
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const Post: NextPage<Props> = (props: Props) => {
+  const postData = props.postData
   return <Layout home={false}>
     {postData.title}
     <Head>
@@ -13,14 +18,16 @@ export default function Post({postData}) {
     <article>
       <h1 className={utilStyles.headingXl}>{postData.title}</h1>
       <div className={utilStyles.lightText}>
-        <Date dateString={postData.date}/>
+        <Date dateString={postData.date} />
       </div>
-      <div dangerouslySetInnerHTML={{__html: postData.contentHtml}}/>
+      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
     </article>
   </Layout>
 }
 
-export function getStaticPaths() {
+export default Post
+
+export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const paths = getAllPostIds()
   return {
     paths,
@@ -28,11 +35,15 @@ export function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({params}) {
-  const postData = await getPostData(params.id)
+export const getStaticProps: GetStaticProps<{ [key: string]: any }, Params> = async (context) => {
+  const postData = await getPostData(context.params.id)
   return {
     props: {
       postData
     }
   }
+}
+
+interface Params extends ParsedUrlQuery {
+  id: string;
 }
