@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from 'components/layout'
-import { getAllPostIds, getPostData } from "lib/posts";
+import { getAllPostIds, getPostData, PostData, PostsData } from "lib/posts";
 import Date from "components/date";
 import utilStyles from "styles/utils.module.css"
 import { ParsedUrlQuery } from 'querystring';
@@ -9,7 +9,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } fro
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Post: NextPage<Props> = (props: Props) => {
-  const postData = props.postData
+  const postData = props
   return <Layout home={false}>
     {postData.title}
     <Head>
@@ -35,11 +35,11 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps<{ [key: string]: any }, Params> = async (context) => {
-  const postData = await getPostData(context.params.id)
+export const getStaticProps: GetStaticProps<PostData, Params> = async (context) => {
+  const postData: PostData = await getPostData(context.params.id)
   return {
     props: {
-      postData
+      ...postData
     }
   }
 }
